@@ -37,5 +37,13 @@
   "male": "Male",
   "female": "Female",
   "other": "Other",
-  "already_have_account": "Already have account?"
+  "already_have_account": "Already have account?",
+  "search": "Search",
+  "home": "Home",
+  "my_bank": "My Bank",
+  "transaction_history": "Transaction History",
+  "settings": "Settings",
+  "profile": "Profile",
+  "payment_transfer": "Payment Transfer",
+  "connect_bank": "Connect Bank"
 }
