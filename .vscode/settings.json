@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
         "Persave"
-    ]
+    ],
+    "terminal.integrated.gpuAcceleration": "off",
+    "terminal.integrated.customGlyphs": false
 }

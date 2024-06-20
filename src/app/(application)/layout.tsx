@@ -14,13 +14,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         {/* menu section */}
         <ResizablePanel defaultSize={20} className="min-w-52">
-          <div className="flex h-full items-center justify-center p-6">
+          <div
+            data-testid="slider"
+            className="flex h-full items-center justify-center p-6"
+          >
             <Sidebar />
           </div>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={80}>
-          <div className="flex h-full items-center justify-center p-6">
+          <div
+            data-textid="content"
+            className="flex h-full items-center justify-center p-6"
+          >
             {children}
           </div>
         </ResizablePanel>
