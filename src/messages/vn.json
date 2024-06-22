@@ -45,5 +45,10 @@
   "settings": "Cài đặt",
   "profile": "Hồ sơ",
   "payment_transfer": "Chuyển khoản",
-  "connect_bank": "Kết nối ngân hàng"
+  "connect_bank": "Kết nối ngân hàng",
+  "dashboard_welcome": "Xin chào, ",
+  "dashboard_welcome_subtitle": "Truy cập và quản lý tài khoản cũng như giao dịch của bạn một cách hiệu quả.",
+  "dashboard_account_balance": "Tổng số dư hiện tại",
+  "dashboard_account_count": "Tổng số tài khoản: ",
+  "dashboard_account_add_bank": "Thêm ngân hàng"
 }

@@ -3,5 +3,6 @@
         "Persave"
     ],
     "terminal.integrated.gpuAcceleration": "off",
-    "terminal.integrated.customGlyphs": false
+    "terminal.integrated.customGlyphs": false,
+    "git.ignoreLimitWarning": true
 }

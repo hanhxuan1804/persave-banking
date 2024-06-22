@@ -6,9 +6,9 @@ interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   return (
-    <div className="container fixed left-0 top-0 z-50 w-full">
+    <header className="container fixed right-4 top-0 z-50 w-fit">
       <Navbar />
-    </div>
+    </header>
   );
 };
 

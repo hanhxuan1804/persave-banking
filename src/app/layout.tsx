@@ -50,10 +50,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <LanguageProvider>
       <html lang={languageTag()} suppressHydrationWarning>
-        <body className={cn('container h-svh min-h-svh font-sans', fonts)}>
+        <body className={cn('h-svh min-h-svh w-full font-sans', fonts)}>
           <ThemeProvider attribute="class">
             <Header />
-            {children}
+            <main className="container">{children}</main>
             <Toaster />
           </ThemeProvider>
         </body>

@@ -5,7 +5,7 @@ import { Link } from '@/lib/i18n';
 
 export const Navbar = async () => {
   return (
-    <header className="w-full">
+    <div className="w-full">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="font-mono text-lg font-bold">
           {/* {m.app_name()} */}
@@ -15,6 +15,6 @@ export const Navbar = async () => {
           <ThemeSwitcher />
         </div>
       </div>
-    </header>
+    </div>
   );
 };

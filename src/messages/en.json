@@ -45,5 +45,10 @@
   "settings": "Settings",
   "profile": "Profile",
   "payment_transfer": "Payment Transfer",
-  "connect_bank": "Connect Bank"
+  "connect_bank": "Connect Bank",
+  "dashboard_welcome": "Welcome, ",
+  "dashboard_welcome_subtitle": "Access & manage your account and transactions efficiently.",
+  "dashboard_account_balance": "Total Current Balance",
+  "dashboard_account_count": "Total Accounts: ",
+  "dashboard_account_add_bank": "Add Bank"
 }

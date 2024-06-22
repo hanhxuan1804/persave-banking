@@ -16,6 +16,7 @@ export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
 
   return (
     <Button
+      type="button"
       className={className}
       variant="secondary"
       size="icon"
