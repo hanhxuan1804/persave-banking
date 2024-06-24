@@ -4,6 +4,9 @@ import CountUp from 'react-countup';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { useAppSelector } from '@/hooks';
+import { selectRates } from '@/lib/redux/feature/rateSlice';
+import { transferCurrency } from '@/lib/utils';
 import { languageTag } from '@/paraglide/runtime';
 
 interface CountUpAnimateProps {
@@ -25,33 +28,13 @@ const CountUpAnimate: FC<CountUpAnimateProps> = ({ balance }) => {
       decimals: 0,
     },
   }[languageTag()];
-  const [amount, setAmount] = useState(0);
   const [view, setView] = useState(false);
+  const rates = useAppSelector(selectRates);
+  const [amount, setAmount] = useState(0);
   useEffect(() => {
-    if (languageTag() === 'en') {
-      setAmount(balance);
-      return;
-    }
-    if (languageTag() === 'vn') {
-      const getRates = async () => {
-        // fetch the data from API
-        const response = await fetch(
-          `https://v6.exchangerate-api.com/v6/83ef8e9bb315be7909dc8c52/latest/USD`
-        ).then((response) => response.json());
+    setAmount(transferCurrency(balance, languageTag(), rates));
+  }, [balance, rates]);
 
-        // save the rates in the state
-        if (response.result === 'success') {
-          const rate = response.conversion_rates.VND;
-          setAmount(balance * rate);
-        }
-        // handle the error
-        else {
-          console.error(response.error);
-        }
-      };
-      getRates();
-    }
-  }, [balance]);
   return (
     <div className="flex flex-row items-center justify-start gap-2 text-3xl font-semibold">
       {view ? (

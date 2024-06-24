@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import Divider from '@/components/ui/divider';
 import { TUser } from '@/types/user';
 
 interface ContentHeaderProps {
@@ -17,7 +18,7 @@ const ContentHeader: FC<ContentHeaderProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-2  ">
-      <h1 className="text-2xl font-semibold">
+      <h1 className="text-3xl font-semibold">
         <span>{title}</span>
         {type === 'greeting' && (
           <span
@@ -29,6 +30,7 @@ const ContentHeader: FC<ContentHeaderProps> = ({
         )}
       </h1>
       <span className="text-sm opacity-70">{subtitle}</span>
+      <Divider />
     </div>
   );
 };

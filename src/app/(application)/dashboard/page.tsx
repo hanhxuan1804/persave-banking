@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import ContentHeader from '@/components/ContentHeader';
-import AccountCard from '@/components/dashboard/AccountCard';
-import Divider from '@/components/ui/divider';
+import RecentTransactions from '@/components/dashboard/RecentTransactions';
+import TotalAccountCard from '@/components/dashboard/TotalAccountCard';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';
 import { TUser } from '@/types/user';
@@ -30,7 +30,7 @@ const Dashboard: FC<DashboardProps> = () => {
       subtype: 'checking',
       appwriteItemId: '1',
       shareableId: '1',
-      color: '#0179FE',
+      color: 'blue',
     },
     {
       id: '2',
@@ -44,7 +44,7 @@ const Dashboard: FC<DashboardProps> = () => {
       subtype: 'savings',
       appwriteItemId: '2',
       shareableId: '2',
-      color: '#4893FF',
+      color: 'green',
     },
     {
       id: '3',
@@ -58,14 +58,14 @@ const Dashboard: FC<DashboardProps> = () => {
       subtype: 'credit card',
       appwriteItemId: '3',
       shareableId: '3',
-      color: '#F472B6',
+      color: 'red',
     },
   ];
   return (
     <div data-testid="dashboard" className=" flex size-full flex-row">
       {/* main */}
-      <div className="container flex flex-1 flex-col">
-        {/* TODO: breadcrumb */}
+      <div className="container flex flex-1 flex-col gap-6">
+        {/* TODO:OPTIONAL breadcrumb */}
         {/* header */}
         <ContentHeader
           title={m.dashboard_welcome()}
@@ -73,9 +73,8 @@ const Dashboard: FC<DashboardProps> = () => {
           user={user}
           type="greeting"
         />
-        <Divider />
         {/* account card */}
-        <AccountCard
+        <TotalAccountCard
           accounts={accounts}
           totalBalance={accounts.reduce(
             (acc, account) => acc + account.currentBalance,
@@ -83,6 +82,8 @@ const Dashboard: FC<DashboardProps> = () => {
           )}
           totalBankAccounts={accounts.length}
         />
+        {/* recent transactions */}
+        <RecentTransactions accounts={accounts} />
       </div>
       {/* side panel */}
       <div className="w-[30%]">

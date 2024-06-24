@@ -1,3 +1,4 @@
+import InitData from '@/components/InitData';
 import Sidebar from '@/components/sidebar/Sidebar';
 import {
   ResizableHandle,
@@ -31,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
+      <InitData />
     </section>
   );
 }

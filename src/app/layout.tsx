@@ -5,6 +5,7 @@ import { LanguageProvider } from '@inlang/paraglide-next';
 import type { Metadata } from 'next';
 
 import Header from '@/components/common/header/Header';
+import StoreProvider from '@/components/store-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { siteConfig } from '@/lib/constant';
@@ -51,11 +52,13 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <LanguageProvider>
       <html lang={languageTag()} suppressHydrationWarning>
         <body className={cn('h-svh min-h-svh w-full font-sans', fonts)}>
-          <ThemeProvider attribute="class">
-            <Header />
-            <main className="container">{children}</main>
-            <Toaster />
-          </ThemeProvider>
+          <StoreProvider>
+            <ThemeProvider attribute="class">
+              <Header />
+              <main className="container">{children}</main>
+              <Toaster />
+            </ThemeProvider>
+          </StoreProvider>
         </body>
       </html>
     </LanguageProvider>
