@@ -6,7 +6,7 @@ import { TUser } from '@/types/user';
 interface ContentHeaderProps {
   title: string;
   subtitle: string;
-  user: TUser;
+  user?: TUser;
   type: string;
 }
 
@@ -17,7 +17,7 @@ const ContentHeader: FC<ContentHeaderProps> = ({
   type,
 }) => {
   return (
-    <div className="flex flex-col gap-2  ">
+    <div className="flex w-full flex-col gap-2">
       <h1 className="text-3xl font-semibold">
         <span>{title}</span>
         {type === 'greeting' && (
@@ -25,7 +25,7 @@ const ContentHeader: FC<ContentHeaderProps> = ({
             className="cursor-pointer bg-gradient-to-r from-[#0179FE] to-[#4893FF] bg-clip-text font-bold text-transparent hover:underline"
             // onClick={() => router.push('/profile')}
           >
-            {user.firstName}
+            {user && user.firstName}
           </span>
         )}
       </h1>

@@ -52,7 +52,7 @@ const Sidebar: FC<SidebarProps> = () => {
     image: '/avatar.webp',
   };
   return (
-    <div className="flex size-full flex-col items-center justify-between">
+    <div className=" flex size-full flex-col items-center justify-between">
       {/* top */}
       <div className="flex w-full flex-col items-center justify-center gap-6">
         {/* logo */}

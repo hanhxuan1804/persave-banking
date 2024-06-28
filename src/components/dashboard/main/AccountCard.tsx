@@ -1,5 +1,5 @@
 'use client';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useAppSelector } from '@/hooks';
 import {
@@ -19,6 +19,10 @@ interface AccountCardProps {
 
 const AccountCard: FC<AccountCardProps> = ({ account }) => {
   const rates = useAppSelector(selectRates);
+  const [subtype, setSubtype] = useState<string>(account.subtype);
+  useEffect(() => {
+    setSubtype(ACCOUNT_SUBTYPES_LABLES[account.subtype]);
+  }, [account.subtype]);
   return (
     <div
       className={cn(
@@ -48,7 +52,7 @@ const AccountCard: FC<AccountCardProps> = ({ account }) => {
               ACCOUNT_SUBTYPES_COLOR_VARIANTS[account.subtype]
             )}
           >
-            {ACCOUNT_SUBTYPES_LABLES[account.subtype]}
+            {subtype}
           </span>
         </div>
         <span

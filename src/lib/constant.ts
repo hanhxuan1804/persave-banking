@@ -45,9 +45,9 @@ const CATEGORY_GROUP_MAP: CategoryGroupMap = {
   Other: 'Savings',
 };
 const CATEGORY_GROUP_COLOR = {
-  Subscriptions: '#175CD3',
-  'Food and booze': '#C11574',
-  Savings: '#027A48',
+  Subscriptions: 'bg-[#175CD3]',
+  'Food and booze': 'bg-[#C11574]',
+  Savings: 'bg-[#027A48]',
 };
 
 const LANGUAGE_TAGS = {
@@ -114,6 +114,19 @@ const TRANSACTION_CATEGORY_COLOR_VARIANTS: Record<TCategoryGroup, string> = {
   Subscriptions: 'text-[#175CD3] border-[#175CD3] bg-[#175CD30e]',
   Savings: 'text-[#027A48] border-[#027A48] bg-[#027A480e]',
 };
+const CREDIT_CARD_BACKGROUND_COLORS: Record<AccountColor, string> = {
+  red: 'bg-gradient-to-tl from-[#bc181b] to-[#f47c7e]',
+  green: 'bg-gradient-to-tl from-[#2e7d32] to-[#81c784]',
+  blue: 'bg-gradient-to-tl from-[#1565c0] to-[#5e92f3]',
+  yellow: 'bg-gradient-to-tl from-[#f9a825] to-[#ffca28]',
+  purple: 'bg-gradient-to-tl from-[#6a1b9a] to-[#b39ddb]',
+  pink: 'bg-gradient-to-tl from-[#ad1457] to-[#e57373]',
+  indigo: 'bg-gradient-to-tl from-[#283593] to-[#7986cb]',
+  cyan: 'bg-gradient-to-tl from-[#00838f] to-[#4dd0e1]',
+  teal: 'bg-gradient-to-tl from-[#00695c] to-[#4db6ac]',
+  gray: 'bg-gradient-to-tl from-[#424242] to-[#9e9e9e]',
+};
+
 export {
   CATEGORY_GROUP_MAP,
   CATEGORY_GROUP_COLOR,
@@ -124,4 +137,5 @@ export {
   ACCOUNT_SUBTYPES_COLOR_VARIANTS,
   ACCOUNT_SUBTYPES_LABLES,
   TRANSACTION_CATEGORY_COLOR_VARIANTS,
+  CREDIT_CARD_BACKGROUND_COLORS,
 };

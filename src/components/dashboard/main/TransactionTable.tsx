@@ -2,7 +2,7 @@
 
 import React, { FC } from 'react';
 
-import TableTransactionImage from '@/components/dashboard/TableTransactionImage';
+import TableTransactionImage from '@/components/dashboard/main/TableTransactionImage';
 import {
   Table,
   TableBody,

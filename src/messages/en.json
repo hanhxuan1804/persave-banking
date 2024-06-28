@@ -71,5 +71,9 @@
   "account_subtype_personal": "personal",
   "account_subtype_student": "student",
   "account_subtype_investment": "investment",
-  "account_subtype_other": "other"
+  "account_subtype_other": "other",
+  "dashboard_sidepanel_my_banks": "My banks",
+  "dashboard_sidepanel_my_budgets": "My budgets",
+  "my_bank_account": "My Bank Accounts",
+  "my_bank_subtitle": "Effortlessly Manage Your Banking Activities"
 }

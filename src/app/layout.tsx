@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { LanguageProvider } from '@inlang/paraglide-next';
 import type { Metadata } from 'next';
 
-import Header from '@/components/common/header/Header';
+import AppSettings from '@/components/AppSettings';
 import StoreProvider from '@/components/store-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
@@ -51,11 +51,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <LanguageProvider>
       <html lang={languageTag()} suppressHydrationWarning>
-        <body className={cn('h-svh min-h-svh w-full font-sans', fonts)}>
+        <body className={cn('w-vw h-svh min-h-svh font-sans', fonts)}>
           <StoreProvider>
             <ThemeProvider attribute="class">
-              <Header />
-              <main className="container">{children}</main>
+              <main className="container ">{children}</main>
+              <AppSettings />
               <Toaster />
             </ThemeProvider>
           </StoreProvider>

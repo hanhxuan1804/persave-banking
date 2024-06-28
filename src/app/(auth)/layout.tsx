@@ -2,9 +2,9 @@ import Image from 'next/image';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="grid h-full grid-cols-12">
+    <section className="grid h-full grid-cols-12 border">
       <div className="col-span-12 h-full lg:col-span-6">{children}</div>
-      <div className="hidden min-h-screen bg-[#f3f9ff9e] lg:col-span-6 lg:block">
+      <div className="hidden min-h-screen bg-[#f3f9ff70] lg:col-span-6 lg:block">
         <div className="flex h-full flex-col items-center justify-center overflow-hidden pl-[50px]">
           <div className="border-foreground relative h-[70%] max-h-[680px] w-full rounded-[12px] rounded-r-none border-[10px] border-r-0">
             <Image

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Plus } from 'lucide-react';
 
-import CountUpAnimate from '@/components/dashboard/CountUpAnimate';
-import DoughnutChart from '@/components/dashboard/DoughnutChart';
+import CountUpAnimate from '@/components/dashboard/main/CountUpAnimate';
+import DoughnutChart from '@/components/dashboard/main/DoughnutChart';
 import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';

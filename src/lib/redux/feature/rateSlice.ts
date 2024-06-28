@@ -10,11 +10,11 @@ interface RateState {
 const initialState: RateState = {
   rates: {
     USD: 1,
-    EUR: 1,
-    JPY: 1,
-    CNY: 1,
-    KRW: 1,
-    VND: 1,
+    EUR: 0.935,
+    JPY: 160.36,
+    CNY: 7.27,
+    KRW: 1391,
+    VND: 23572,
   },
   status: 'idle',
 };
@@ -24,13 +24,13 @@ export const rateSlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     fetchRates: create.asyncThunk(
+      //TODO: fetch from db first, if date is not today, fetch from API
       async () => {
         // fetch the data from API
         const response = await fetch(
           `https://v6.exchangerate-api.com/v6/83ef8e9bb315be7909dc8c52/latest/USD`
         ).then((response) => response.json());
-
-        return response.conversion_rates;
+        return response;
       },
       {
         pending: (state) => {
@@ -38,7 +38,12 @@ export const rateSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-          state.rates = action.payload;
+          if (action.payload.result === 'error') {
+            // console.log(action.payload);
+          }
+          if (action.payload.conversion_rates) {
+            state.rates = action.payload.conversion_rates;
+          }
         },
         rejected: (state) => {
           state.status = 'failed';

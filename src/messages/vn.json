@@ -71,5 +71,7 @@
   "account_subtype_personal": "cá nhân",
   "account_subtype_student": "sinh viên",
   "account_subtype_investment": "đầu tư",
-  "account_subtype_other": "khác"
+  "account_subtype_other": "khác",
+  "dashboard_sidepanel_my_banks": "Ngân hàng",
+  "dashboard_sidepanel_my_budgets": "Ngân sách"
 }
