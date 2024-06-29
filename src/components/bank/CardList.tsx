@@ -40,7 +40,7 @@ const CardList: FC<CardListProps> = ({ cards }) => {
     setData(newData);
   }, [cards, rate]);
   return (
-    <div className="mt-4 flex flex-row flex-wrap justify-stretch gap-11">
+    <div className="mt-4 flex flex-row flex-wrap justify-stretch gap-11 pb-10">
       {data.map((card, index) => (
         <div key={index} className="w-[300px] drop-shadow-sm ">
           <CreditCard card={card} />

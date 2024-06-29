@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <section>
       <ResizablePanelGroup
         direction="horizontal"
-        className="h-svh max-h-svh min-w-full rounded-lg border "
+        className="h-svh max-h-svh min-w-full overflow-hidden rounded-lg border"
       >
         {/* menu section */}
         <ResizablePanel defaultSize={20} className="min-w-52">

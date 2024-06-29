@@ -15,7 +15,7 @@ declare type TAccount = {
 declare type AccountTypes =
   | 'depository'
   | 'credit'
-  | 'loan '
+  | 'loan'
   | 'investment'
   | 'other';
 declare type AccountColor =

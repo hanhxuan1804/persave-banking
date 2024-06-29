@@ -12,6 +12,7 @@ interface CreditCardProps {
 const CreditCard: FC<CreditCardProps> = ({
   card: { bank, name, number, expiry, color },
 }) => {
+  const lastFour = number.slice(-4);
   return (
     <div className="relative aspect-video w-full max-w-[320px]">
       <CreditCardBackground color={color} />
@@ -26,7 +27,7 @@ const CreditCard: FC<CreditCardProps> = ({
               <span className="text-white">{name.toLocaleUpperCase()}</span>
               <span className="text-white">{expiry}</span>
             </div>
-            <span className="text-white">●●●● ●●●● ●●●● {number}</span>
+            <span className="text-white">●●●● ●●●● ●●●● {lastFour}</span>
           </div>
           <Image
             src={'visa.svg'}

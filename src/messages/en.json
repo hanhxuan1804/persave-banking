@@ -77,5 +77,15 @@
   "my_bank_account": "My Bank Accounts",
   "my_bank_subtitle": "Effortlessly Manage Your Banking Activities",
   "spending_this_month": "Spending this month",
-  "your_cards": "Your Cards"
+  "your_cards": "Your Cards",
+  "transactions": "transactions",
+  "history": "History",
+  "show": "Show",
+  "no_transaction_found": "No transaction found",
+  "previous": "Previous",
+  "next": "Next",
+  "data_export": "Export",
+  "transactions_history": "Transaction history",
+  "transactions_history_subtitle": "Gain Insights and Track Your Transactions Over Time",
+  "current_balance": "Current Balance"
 }

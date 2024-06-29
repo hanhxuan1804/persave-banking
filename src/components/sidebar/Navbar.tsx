@@ -1,5 +1,6 @@
 'use client';
 import React, { FC, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { Link } from '@/lib/i18n';
 import { isAvailableLanguageTag } from '@/paraglide/runtime';
@@ -9,14 +10,15 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ items }) => {
-  const [selectItem, setSelectItem] = useState(items[0].value);
+  const [selectItem, setSelectItem] = useState('');
+  const pathname = usePathname();
   useEffect(() => {
-    let location = window.location.pathname.split('/')[1];
+    let location = pathname.split('/')[1];
     if (isAvailableLanguageTag(location)) {
-      location = window.location.pathname.split('/')[2];
+      location = pathname.split('/')[2];
     }
     location && setSelectItem(location);
-  }, []);
+  }, [pathname]);
   const selectClass = 'bg-gradient-to-r from-[#0179FE] to-[#4893FF] text-white';
   return (
     <nav className="flex w-full flex-col gap-2">

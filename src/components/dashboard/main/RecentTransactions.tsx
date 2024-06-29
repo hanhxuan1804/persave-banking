@@ -1,25 +1,29 @@
 import React, { FC } from 'react';
 
 import AccountCard from '@/components/dashboard/main/AccountCard';
-import TransactionTable from '@/components/dashboard/main/TransactionTable';
+import TransactionTable from '@/components/TransactionTable';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';
+import TBank from '@/types/bank';
 import TTransaction from '@/types/transaction';
 
 interface RecentTransactionsProps {
+  banks: TBank[];
   accounts: TAccount[];
   transactions: TTransaction[];
 }
 
 const RecentTransactions: FC<RecentTransactionsProps> = ({
+  banks,
   accounts,
   transactions,
 }) => {
   const tabs = accounts.map((account) => {
     return {
       value: account.id,
+      bank: banks.find((bank) => bank.accountId === account.id),
       color: account.color,
       amount: account.currentBalance,
       label: account.officialName,
@@ -62,7 +66,10 @@ const RecentTransactions: FC<RecentTransactionsProps> = ({
                     accounts.find((a) => a.id === item.value) || accounts[0]
                   }
                 />
-                <TransactionTable data={item.content} accountId={item.value} />
+                <TransactionTable
+                  data={item.content.slice(0, 5)}
+                  bank={item.bank}
+                />
               </TabsContent>
             );
           })}

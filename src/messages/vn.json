@@ -77,5 +77,15 @@
   "my_bank_account": "Tài khoản ngân hàng",
   "my_bank_subtitle": "Quản lý tài khoản ngân hàng của bạn",
   "spending_this_month": "Tiêu phí trong tháng",
-  "your_cards": "Danh sách thẻ"
+  "your_cards": "Danh sách thẻ",
+  "transactions": "giao dịch",
+  "history": "Lịch sử ",
+  "show": "Hiển thị",
+  "no_transaction_found": "Không tìm thấy giao dịch",
+  "previous": "Trước",
+  "next": "Tiếp theo",
+  "data_export": "Xuất dữ liệu",
+  "transactions_history": "Lịch sử giao dịch",
+  "transactions_history_subtitle": "Xem lịch sử và kiểm tra các giao dịch của bạn",
+  "current_balance": "Số dư hiện tại"
 }

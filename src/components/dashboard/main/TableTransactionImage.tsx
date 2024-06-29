@@ -1,5 +1,5 @@
 'use client';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
@@ -15,16 +15,17 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
   name,
   variant,
 }) => {
-  const [loadError, setLoadError] = useState(false);
-  const hiddenImage = loadError ? 'hidden' : '';
-  const hiddenText = loadError ? '' : 'hidden';
+  const [validImageURL, setValidImageURL] = useState(false);
   const checkIsValidUrl = (url: string) => {
     //check is example.com is not a valid url
     if (url.includes('https://example.com')) {
-      return '';
+      return false;
     }
-    return url;
+    return true;
   };
+  useEffect(() => {
+    setValidImageURL(checkIsValidUrl(url));
+  }, [url]);
   const getShortName = (name: string) => {
     //return the first letter of each word in the name
     return name
@@ -34,22 +35,24 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
   };
   return (
     <div className="flex size-10 items-center justify-center">
-      <Image
-        src={checkIsValidUrl(url)}
-        alt={name}
-        onError={() => setLoadError(true)}
-        width={10}
-        height={10}
-        className={`rounded-full ${hiddenImage}`}
-      />
-      <div
-        className={cn(
-          `flex size-10 items-center justify-center rounded-full bg-gray-300 ${hiddenText}`,
-          variant
-        )}
-      >
-        {getShortName(name)}
-      </div>
+      {validImageURL ? (
+        <Image
+          src={validImageURL ? url : '/placeholder.png'}
+          alt={name}
+          width={10}
+          height={10}
+          className={`rounded-full `}
+        />
+      ) : (
+        <div
+          className={cn(
+            `flex size-10 items-center justify-center rounded-full bg-gray-300 `,
+            variant
+          )}
+        >
+          {getShortName(name)}
+        </div>
+      )}
     </div>
   );
 };

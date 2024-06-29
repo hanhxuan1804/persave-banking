@@ -15,10 +15,12 @@ import {
 } from '@/lib/constant';
 import { cn } from '@/lib/utils';
 import * as m from '@/paraglide/messages';
+import TBank from '@/types/bank';
 import TTransaction, { TCategoryGroup } from '@/types/transaction';
 
 interface SidePanelBudgetsProps {
   transactions: TTransaction[];
+  banks: TBank[];
 }
 const budgets: Record<TCategoryGroup, number> = {
   Subscriptions: 1000,
@@ -26,12 +28,10 @@ const budgets: Record<TCategoryGroup, number> = {
   Savings: 1000,
 };
 
-const SidePanelBudgets: FC<SidePanelBudgetsProps> = ({ transactions }) => {
-  // using budgets template {
-  //     Subscriptions: 0,
-  //     'Food and booze': 0,
-  //     Savings: 0,
-  //   }
+const SidePanelBudgets: FC<SidePanelBudgetsProps> = ({
+  transactions,
+  banks,
+}) => {
   const iconsMap = {
     Subscriptions: <AirplayIcon size={20} />,
     'Food and booze': <PizzaIcon size={20} />,
@@ -40,7 +40,8 @@ const SidePanelBudgets: FC<SidePanelBudgetsProps> = ({ transactions }) => {
   const usingBudgets: Record<TCategoryGroup, number> = transactions.reduce(
     (acc: Record<TCategoryGroup, number>, transaction) => {
       if (
-        transaction.senderBankId === transaction.accountId &&
+        transaction.senderBankId ===
+          banks.find((bank) => bank.accountId === transaction.accountId)?.$id &&
         transaction.status === 'Success'
       ) {
         const categoryGroup = CATEGORY_GROUP_MAP[transaction.category];
@@ -58,8 +59,10 @@ const SidePanelBudgets: FC<SidePanelBudgetsProps> = ({ transactions }) => {
   );
   const budgetLeft = Object.entries(budgets).reduce(
     (acc, [categoryGroup, budget]) => {
-      acc[categoryGroup as TCategoryGroup] =
-        budget - usingBudgets[categoryGroup as TCategoryGroup];
+      //format 2 digits after decimal point
+      acc[categoryGroup as TCategoryGroup] = (
+        budget - usingBudgets[categoryGroup as TCategoryGroup]
+      ).toFixed(2) as unknown as number;
       return acc;
     },
     {
