@@ -57,3 +57,42 @@
     @apply bg-background text-foreground;
   }
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f3f9ff70;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  cusor: pointer;
+}
+.dark {
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f3f9ff70;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #34343a;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3d3d44;
+    cusor: pointer;
+  }
+}

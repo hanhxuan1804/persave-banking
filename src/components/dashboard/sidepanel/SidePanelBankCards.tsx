@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Plus } from 'lucide-react';
 
-import CreditCardGroup from '@/components/dashboard/sidepanel/creditCard/CreditCardGroup';
+import CreditCardGroup from '@/components/creditCard/CreditCardGroup';
 import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';

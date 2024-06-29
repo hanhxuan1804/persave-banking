@@ -6,6 +6,7 @@ import {
   PizzaIcon,
 } from 'lucide-react';
 
+import ProgressBar from '@/components/ProgressBar';
 import { Button } from '@/components/ui/button';
 import {
   CATEGORY_GROUP_COLOR,
@@ -114,18 +115,11 @@ const SidePanelBudgets: FC<SidePanelBudgetsProps> = ({ transactions }) => {
                 </p>
               </div>
               {/* progress */}
-              <div className="mt-2 h-2 w-full rounded-lg bg-white">
-                <div
-                  className={`${CATEGORY_GROUP_COLOR[categoryGroup as TCategoryGroup]} h-full rounded-lg `}
-                  style={{
-                    width: `${Math.min(
-                      (usingBudgets[categoryGroup as TCategoryGroup] / budget) *
-                        100,
-                      100
-                    )}%`,
-                  }}
-                ></div>
-              </div>
+              <ProgressBar
+                progress={usingBudgets[categoryGroup as TCategoryGroup]}
+                total={budget}
+                color={CATEGORY_GROUP_COLOR[categoryGroup as TCategoryGroup]}
+              />
             </div>
           </div>
         ))}

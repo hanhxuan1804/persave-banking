@@ -73,5 +73,9 @@
   "account_subtype_investment": "đầu tư",
   "account_subtype_other": "khác",
   "dashboard_sidepanel_my_banks": "Ngân hàng",
-  "dashboard_sidepanel_my_budgets": "Ngân sách"
+  "dashboard_sidepanel_my_budgets": "Ngân sách",
+  "my_bank_account": "Tài khoản ngân hàng",
+  "my_bank_subtitle": "Quản lý tài khoản ngân hàng của bạn",
+  "spending_this_month": "Tiêu phí trong tháng",
+  "your_cards": "Danh sách thẻ"
 }
