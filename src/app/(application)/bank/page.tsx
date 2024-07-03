@@ -7,7 +7,7 @@ import * as m from '@/paraglide/messages';
 
 interface pageProps {}
 
-const page: FC<pageProps> = () => {
+const Bank: FC<pageProps> = () => {
   const cards = CREDITCARDS;
   return (
     <div className="flex size-full flex-col items-start justify-start px-8 py-6">
@@ -22,4 +22,4 @@ const page: FC<pageProps> = () => {
   );
 };
 
-export default page;
+export default Bank;

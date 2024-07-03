@@ -68,6 +68,7 @@ const TransactionPage: FC<pageProps> = () => {
           <AccountSelect
             accounts={accounts}
             setSelectAccount={setSelectedAccount}
+            isSetQuery={true}
           />
         }
       />

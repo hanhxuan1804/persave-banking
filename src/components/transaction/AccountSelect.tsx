@@ -14,19 +14,23 @@ import TAccount from '@/types/account';
 interface AccountSelectDropdownProps {
   accounts: TAccount[];
   setSelectAccount: (account: TAccount) => void;
+  isSetQuery?: boolean;
 }
 
 const AccountSelect: FC<AccountSelectDropdownProps> = ({
   accounts,
   setSelectAccount,
+  isSetQuery = false,
 }) => {
   const [defaultValue, setDefaultValue] = React.useState(accounts[0].name);
   const searchParams = useMySearchParams();
   const onSelectAccount = (accountId: string) => {
-    searchParams.setMultiple({
-      accountId: accountId,
-      page: '1',
-    });
+    if (isSetQuery) {
+      searchParams.setMultiple({
+        accountId: accountId,
+        page: '1',
+      });
+    }
     setSelectAccount(
       accounts.find((account) => account.id === accountId) || accounts[0]
     );
@@ -44,8 +48,10 @@ const AccountSelect: FC<AccountSelectDropdownProps> = ({
   return (
     <Select onValueChange={(value) => onSelectAccount(value as string)}>
       <SelectTrigger className="bg-background min-w-[200px] text-sm font-semibold">
-        <CreditCardIcon color="blue" />
-        <SelectValue placeholder={defaultValue} />
+        <div className="flex flex-row items-center justify-start gap-6">
+          <CreditCardIcon color="blue" />
+          <SelectValue placeholder={defaultValue} />
+        </div>
       </SelectTrigger>
       <SelectContent className="font-semibold">
         {accounts.map((account) => (

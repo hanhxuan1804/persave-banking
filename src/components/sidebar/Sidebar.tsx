@@ -29,7 +29,7 @@ const Sidebar: FC<SidebarProps> = () => {
       icon: <ScrollText size={16} />,
     },
     {
-      value: 'payment',
+      value: 'transfer',
       label: m.payment_transfer(),
       icon: <ArrowLeftRight size={16} />,
     },
