@@ -4,13 +4,16 @@ import ContentHeader from '@/components/ContentHeader';
 import RecentTransactions from '@/components/dashboard/main/RecentTransactions';
 import TotalAccountCard from '@/components/dashboard/main/TotalAccountCard';
 import SidePanel from '@/components/dashboard/sidepanel/SidePanel';
-import { ACCOUNTS, BANKS, TRANSACTIONS, USER } from '@/data.example';
+import { ACCOUNTS, BANKS, TRANSACTIONS } from '@/data.example';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
 import * as m from '@/paraglide/messages';
+import { TUser } from '@/types/user';
 
 interface DashboardProps {}
 
-const Dashboard: FC<DashboardProps> = () => {
-  const user = USER;
+const Dashboard: FC<DashboardProps> = async () => {
+  const userData = await getLoggedInUser();
+  const user: TUser = JSON.parse(userData as string);
   const accounts = ACCOUNTS.slice(0, 3);
   const transactions = TRANSACTIONS;
   const banks = BANKS;

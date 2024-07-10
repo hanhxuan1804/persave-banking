@@ -6,6 +6,7 @@ import {
   FieldValues,
   FormProvider,
   useFormContext,
+  useFormState,
 } from 'react-hook-form';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
@@ -165,6 +166,24 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = 'FormMessage';
 
+//display error message of the form field name root
+const FormRootMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => {
+  const { errors } = useFormState();
+  return (
+    <p
+      ref={ref}
+      className={cn('text-destructive text-sm font-medium', className)}
+      {...props}
+    >
+      {errors.root?.message}
+    </p>
+  );
+});
+FormRootMessage.displayName = 'FormRootMessage';
+
 export {
   useFormField,
   Form,
@@ -173,5 +192,6 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
+  FormRootMessage,
   FormField,
 };

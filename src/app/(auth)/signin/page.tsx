@@ -1,7 +1,9 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -12,19 +14,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormRootMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { SignIn } from '@/lib/actions/user.actions';
 import { Link } from '@/lib/i18n';
 import * as m from '@/paraglide/messages';
+import { ActionsResponse } from '@/types';
 
-const signInFormSchema = z.object({
+export const signInFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters long',
   }),
 });
 const SignInPage = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -33,7 +39,17 @@ const SignInPage = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof signInFormSchema>) => {
-    console.log(values);
+    const signIn = await SignIn(values);
+    const response = ActionsResponse.fromJSON(signIn);
+    if (response.status === 'error') {
+      form.setError('root', {
+        type: 'manual',
+        message: 'Invalid email or password',
+      });
+    }
+    if (response.status === 'success') {
+      router.push('/dashboard');
+    }
   };
   return (
     <div className="mx-auto flex h-full w-[360px] flex-col items-start justify-center gap-10">
@@ -87,10 +103,15 @@ const SignInPage = () => {
                 </FormItem>
               )}
             />
+            <FormRootMessage />
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-[#0179FE] to-[#4893FF]"
+              disabled={form.formState.isSubmitting}
             >
+              {form.formState.isSubmitting && (
+                <Loader2 className="mr-2 size-4 animate-spin" />
+              )}
               {m.sign_in()}
             </Button>
           </form>

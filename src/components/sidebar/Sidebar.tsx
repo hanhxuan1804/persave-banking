@@ -5,7 +5,6 @@ import {
   CircleDollarSign,
   CreditCard,
   Home,
-  LogOut,
   ScrollText,
   UserRound,
 } from 'lucide-react';
@@ -13,13 +12,15 @@ import Image from 'next/image';
 
 import CommandSearch from '@/components/sidebar/CommandSearch';
 import Navbar from '@/components/sidebar/Navbar';
-import { Button } from '@/components/ui/button';
+import SidebarFooter from '@/components/sidebar/SidebarFooter';
 import * as m from '@/paraglide/messages';
 import { TUser } from '@/types/user';
 
-interface SidebarProps {}
+interface SidebarProps {
+  user: TUser;
+}
 
-const Sidebar: FC<SidebarProps> = () => {
+const Sidebar: FC<SidebarProps> = ({ user }) => {
   const listNavItem = [
     { value: 'dashboard', label: m.home(), icon: <Home size={16} /> },
     { value: 'bank', label: m.my_bank(), icon: <CircleDollarSign size={16} /> },
@@ -44,13 +45,6 @@ const Sidebar: FC<SidebarProps> = () => {
   const listNavItemRender = listNavItem.filter(
     (item) => item.value !== 'profile' && item.value !== 'setting'
   );
-  const user: TUser = {
-    id: '1',
-    email: 'example@gmail.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    image: '/avatar.webp',
-  };
   return (
     <div className=" flex size-full flex-col items-center justify-between">
       {/* top */}
@@ -67,22 +61,7 @@ const Sidebar: FC<SidebarProps> = () => {
       </div>
       {/* bottom */}
       <div className="flex w-full items-center justify-between gap-2 border-t pt-4">
-        <div className="flex items-center justify-start gap-2 ">
-          <Image
-            src={user.image}
-            alt="avatar"
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
-          <div className="flex flex-col items-start justify-center ">
-            <span className="text-sm font-semibold">{`${user.firstName} ${user.lastName}`}</span>
-            <span className="text-[12px] ">{user.email}</span>
-          </div>
-        </div>
-        <Button variant={'ghost'}>
-          <LogOut size={16} />
-        </Button>
+        <SidebarFooter user={user} />
       </div>
     </div>
   );

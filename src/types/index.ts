@@ -7,4 +7,26 @@ declare type Rate = {
   VND: number;
 };
 
-export type { Rate };
+declare type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
+export class ActionsResponse {
+  status: ActionStatus;
+  message: string;
+  data: object | null;
+
+  constructor(status: ActionStatus, message: string, data?: object) {
+    this.status = status;
+    this.message = message;
+    this.data = data || null;
+  }
+
+  get() {
+    return JSON.stringify(this);
+  }
+
+  static fromJSON(json: string) {
+    const parsed = JSON.parse(json);
+    return new ActionsResponse(parsed.status, parsed.message, parsed.data);
+  }
+}
+
+export type { Rate, ActionStatus };

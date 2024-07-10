@@ -1,6 +1,11 @@
 {
     "cSpell.words": [
-        "Persave"
+        "APPWRITE",
+        "hookform",
+        "lucide",
+        "paraglide",
+        "Persave",
+        "signin"
     ],
     "terminal.integrated.gpuAcceleration": "off",
     "terminal.integrated.customGlyphs": false,

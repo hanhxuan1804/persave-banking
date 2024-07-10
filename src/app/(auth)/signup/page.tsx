@@ -2,8 +2,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormRootMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,11 +32,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { SignUp } from '@/lib/actions/user.actions';
 import { Link } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import * as m from '@/paraglide/messages';
+import { ActionsResponse } from '@/types';
 
-const signUpFormSchema = z
+export const signUpFormSchema = z
   .object({
     firstName: z.string().min(2, {
       message: 'First name must be at least 2 characters long',
@@ -67,6 +71,7 @@ const signUpFormSchema = z
     }
   });
 const SignUpPage = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -81,7 +86,17 @@ const SignUpPage = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
-    console.log(values);
+    const signUp = await SignUp(values);
+    const response = ActionsResponse.fromJSON(signUp);
+    if (response.status === 'error') {
+      form.setError('root', {
+        type: 'manual',
+        message: response.message,
+      });
+    }
+    if (response.status === 'success') {
+      router.push('/dashboard');
+    }
   };
   return (
     <div className="mx-auto flex h-full w-[420px] flex-col items-start justify-center gap-8 py-10">
@@ -275,10 +290,15 @@ const SignUpPage = () => {
                 </FormItem>
               )}
             />
+            <FormRootMessage />
             <Button
               type="submit"
               className="mt-2 w-full bg-gradient-to-r from-[#0179FE] to-[#4893FF]"
+              disabled={form.formState.isSubmitting}
             >
+              {form.formState.isSubmitting && (
+                <Loader2 className="mr-2 size-4 animate-spin" />
+              )}
               {m.sign_up()}
             </Button>
           </form>

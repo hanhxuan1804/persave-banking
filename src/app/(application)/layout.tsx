@@ -1,3 +1,6 @@
+import React from 'react';
+import { redirect } from 'next/navigation';
+
 import InitData from '@/components/InitData';
 import Sidebar from '@/components/sidebar/Sidebar';
 import {
@@ -5,8 +8,17 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { TUser } from '@/types/user';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = await getLoggedInUser();
+  if (!user) redirect('/signin');
+  const appUser: TUser = JSON.parse(user) as TUser;
   return (
     <section>
       <ResizablePanelGroup
@@ -19,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             data-testid="slider"
             className="flex h-svh max-h-svh w-full items-center justify-center p-6"
           >
-            <Sidebar />
+            <Sidebar user={appUser} />
           </div>
         </ResizablePanel>
         <ResizableHandle />

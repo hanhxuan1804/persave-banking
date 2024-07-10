@@ -1,21 +1,20 @@
-import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import PreviewDashboard from '@/components/auth/PreviewDashboard';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
+
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = await getLoggedInUser();
+  if (user) redirect('/dashboard');
   return (
     <section className="grid h-full grid-cols-12 border">
       <div className="col-span-12 h-full lg:col-span-6">{children}</div>
       <div className="hidden min-h-screen bg-[#f3f9ff70] lg:col-span-6 lg:block">
-        <div className="flex h-full flex-col items-center justify-center overflow-hidden pl-[50px]">
-          <div className="border-foreground relative h-[70%] max-h-[680px] w-full rounded-[12px] rounded-r-none border-[10px] border-r-0">
-            <Image
-              src="/auth-illustration.png"
-              alt="Illustration"
-              width={940}
-              height={680}
-              className="absolute left-0 top-0 h-full w-[940px] object-cover"
-            />
-          </div>
-        </div>
+        <PreviewDashboard />
       </div>
     </section>
   );
