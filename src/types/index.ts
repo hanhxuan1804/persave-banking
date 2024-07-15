@@ -1,3 +1,5 @@
+import TAccount from '@/types/account';
+
 declare type Rate = {
   USD: number;
   EUR: number;
@@ -23,10 +25,22 @@ export class ActionsResponse {
     return JSON.stringify(this);
   }
 
-  static fromJSON(json: string) {
+  static fromJSON(json: string | null) {
+    if (!json) {
+      return new ActionsResponse('error', 'No data found');
+    }
     const parsed = JSON.parse(json);
     return new ActionsResponse(parsed.status, parsed.message, parsed.data);
   }
+  getData() {
+    return this.data;
+  }
 }
 
-export type { Rate, ActionStatus };
+declare type AccountDataResponse = {
+  totalBanks: number;
+  totalCurrentBalance: number;
+  accounts: TAccount[];
+};
+
+export type { Rate, ActionStatus, AccountDataResponse };

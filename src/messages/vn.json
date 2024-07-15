@@ -105,5 +105,13 @@
   "amount_in_usd": "Số tiền (USD)",
   "enater_amount_to_transfer": "Nhập số tiền cần chuyển",
   "transfer_funds": "Chuyển khoản",
-  "enter_transfer_note": "Nhập ghi chú chuyển khoản"
+  "enter_transfer_note": "Nhập ghi chú chuyển khoản",
+  "city": "Thành phố",
+  "enter_city": "Nhập thành phố",
+  "state": "Quận/huyện",
+  "enter_state": "Nhập quận/huyện",
+  "postal_code": "Mã bưu chính",
+  "enter_postal_code": "Nhập mã bưu chính",
+  "SSN": "CCCD",
+  "enter_ssn": "Nhập số CCCD"
 }

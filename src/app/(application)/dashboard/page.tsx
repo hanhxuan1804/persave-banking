@@ -4,9 +4,11 @@ import ContentHeader from '@/components/ContentHeader';
 import RecentTransactions from '@/components/dashboard/main/RecentTransactions';
 import TotalAccountCard from '@/components/dashboard/main/TotalAccountCard';
 import SidePanel from '@/components/dashboard/sidepanel/SidePanel';
-import { ACCOUNTS, BANKS, TRANSACTIONS } from '@/data.example';
+import { BANKS, TRANSACTIONS } from '@/data.example';
+import { getAccounts } from '@/lib/actions/account.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import * as m from '@/paraglide/messages';
+import { AccountDataResponse, ActionsResponse } from '@/types';
 import { TUser } from '@/types/user';
 
 interface DashboardProps {}
@@ -14,14 +16,15 @@ interface DashboardProps {}
 const Dashboard: FC<DashboardProps> = async () => {
   const userData = await getLoggedInUser();
   const user: TUser = JSON.parse(userData as string);
-  const accounts = ACCOUNTS.slice(0, 3);
+  const accountsData = ActionsResponse.fromJSON(
+    await getAccounts(user.userId)
+  ).getData() as AccountDataResponse;
   const transactions = TRANSACTIONS;
   const banks = BANKS;
   return (
     <div data-testid="dashboard" className="flex size-full flex-row">
       {/* main */}
       <div className="container flex h-fit min-h-full flex-1 flex-col gap-6 border-r py-6">
-        {/* TODO:OPTIONAL breadcrumb */}
         {/* header */}
         <ContentHeader
           title={m.dashboard_welcome()}
@@ -31,17 +34,14 @@ const Dashboard: FC<DashboardProps> = async () => {
         />
         {/* account card */}
         <TotalAccountCard
-          accounts={accounts}
-          totalBalance={accounts.reduce(
-            (acc, account) => acc + account.currentBalance,
-            0
-          )}
-          totalBankAccounts={accounts.length}
+          accounts={accountsData.accounts}
+          totalBalance={accountsData.totalCurrentBalance}
+          totalBankAccounts={accountsData.totalBanks}
         />
         {/* recent transactions */}
         <RecentTransactions
           banks={banks}
-          accounts={accounts}
+          accounts={accountsData.accounts}
           transactions={transactions}
         />
       </div>
@@ -49,7 +49,7 @@ const Dashboard: FC<DashboardProps> = async () => {
       <div className="w-[30%]">
         <SidePanel
           user={user}
-          accounts={accounts}
+          accounts={accountsData.accounts}
           transactions={transactions}
         />
       </div>

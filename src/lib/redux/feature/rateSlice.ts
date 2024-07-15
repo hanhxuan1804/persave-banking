@@ -1,5 +1,6 @@
+import { createRate, getRate, updateRate } from '@/lib/actions/rate.action';
 import { createAppSlice } from '@/lib/redux/createAppSlice';
-import { Rate } from '@/types';
+import { ActionsResponse, Rate } from '@/types';
 
 declare type RateStatus = 'idle' | 'loading' | 'failed';
 interface RateState {
@@ -24,13 +25,44 @@ export const rateSlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     fetchRates: create.asyncThunk(
-      //TODO: fetch from db first, if date is not today, fetch from API
       async () => {
-        // fetch the data from API
-        const response = await fetch(
-          `https://v6.exchangerate-api.com/v6/83ef8e9bb315be7909dc8c52/latest/USD`
-        ).then((response) => response.json());
-        return response;
+        const dbRate = ActionsResponse.fromJSON(await getRate()).getData() as {
+          $id: string;
+          rates: string;
+          updatedAt: Date;
+        };
+        if (!dbRate) {
+          // fetch the data from API
+          const response = await fetch(
+            `https://v6.exchangerate-api.com/v6/83ef8e9bb315be7909dc8c52/latest/USD`
+          ).then((response) => response.json());
+          if (response.result === 'error') {
+            return response;
+          }
+          await createRate({
+            rates: JSON.stringify(JSON.stringify(response.conversion_rates)),
+            updatedAt: new Date(),
+          });
+          return response;
+        }
+        if (
+          new Date(dbRate.updatedAt).toDateString() !==
+          new Date().toDateString()
+        ) {
+          const response = await fetch(
+            `https://v6.exchangerate-api.com/v6/83ef8e9bb315be7909dc8c52/latest/USD`
+          ).then((response) => response.json());
+          if (response.result === 'error') {
+            return response;
+          }
+          await updateRate({
+            $id: dbRate.$id,
+            rates: JSON.stringify(JSON.stringify(response.conversion_rates)),
+            updatedAt: new Date(),
+          });
+          return response;
+        }
+        return { conversion_rates: JSON.parse(dbRate.rates) };
       },
       {
         pending: (state) => {

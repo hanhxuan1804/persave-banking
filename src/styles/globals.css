@@ -96,3 +96,7 @@
     cusor: pointer;
   }
 }
+
+.rdp-vhidden {
+  @apply hidden;
+}

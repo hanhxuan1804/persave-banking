@@ -1,7 +1,7 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
+import { addYears, format } from 'date-fns';
 import { CalendarIcon, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -60,6 +60,18 @@ export const signUpFormSchema = z
     confirmPassword: z.string().min(8, {
       message: 'Password must be at least 8 characters long',
     }),
+    city: z.string().min(1, {
+      message: 'City is required',
+    }),
+    state: z.string().min(1, {
+      message: 'State is required',
+    }),
+    postalCode: z.string().min(1, {
+      message: 'Postal code is required',
+    }),
+    ssn: z.string().min(1, {
+      message: 'SSN is required',
+    }),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
@@ -78,7 +90,7 @@ const SignUpPage = () => {
       firstName: '',
       lastName: '',
       address: '',
-      dob: new Date(),
+      dob: addYears(new Date(), -18),
       gender: 'male',
       email: '',
       password: '',
@@ -171,6 +183,78 @@ const SignUpPage = () => {
                 </FormItem>
               )}
             />
+            <div className="flex flex-row items-center justify-between">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="w-[48%]">
+                    <FormLabel>{m.city()}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={m.enter_city()}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem className="w-[48%]">
+                    <FormLabel>{m.state()}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={m.enter_state()}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-row items-center justify-between">
+              <FormField
+                control={form.control}
+                name="postalCode"
+                render={({ field }) => (
+                  <FormItem className="w-[48%]">
+                    <FormLabel>{m.postal_code()}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={m.enter_postal_code()}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="ssn"
+                render={({ field }) => (
+                  <FormItem className="w-[48%]">
+                    <FormLabel>{m.SSN()}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={m.enter_ssn()}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex w-full flex-row items-center justify-between gap-2">
               <FormField
                 control={form.control}
@@ -200,12 +284,15 @@ const SignUpPage = () => {
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
+                          captionLayout="dropdown-buttons"
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
+                            date < new Date('1960-01-01') ||
+                            date > addYears(new Date(), -18)
                           }
-                          initialFocus
+                          fromYear={1960}
+                          toYear={new Date().getFullYear() - 18}
                         />
                       </PopoverContent>
                     </Popover>

@@ -8,11 +8,13 @@ declare type TTransaction = {
   pending: boolean;
   status: Status;
   category: Category;
-  date: string;
+  date: Date;
   image: string;
   type: string;
   $createdAt: string;
   channel: string;
+  senderId: string;
+  receiverId: string;
   senderBankId: string;
   receiverBankId: string;
 };
@@ -33,7 +35,6 @@ declare type Category =
   | 'Withdrawal'
   | 'Interest'
   | 'Payment'
-  | 'Transfer'
   | 'Credit Card'
   | 'Loan'
   | 'Investment'

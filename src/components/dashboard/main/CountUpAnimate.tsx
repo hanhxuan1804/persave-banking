@@ -8,6 +8,7 @@ import { useAppSelector } from '@/hooks';
 import { selectRates } from '@/lib/redux/feature/rateSlice';
 import { transferCurrency } from '@/lib/utils';
 import { languageTag } from '@/paraglide/runtime';
+import { Rate } from '@/types';
 
 interface CountUpAnimateProps {
   balance: number;
@@ -29,11 +30,12 @@ const CountUpAnimate: FC<CountUpAnimateProps> = ({ balance }) => {
     },
   }[languageTag()];
   const [view, setView] = useState(false);
-  const rates = useAppSelector(selectRates);
+  const rates: Rate = useAppSelector(selectRates);
   const [amount, setAmount] = useState(0);
   useEffect(() => {
     setAmount(transferCurrency(balance, languageTag(), rates));
-  }, [balance, rates]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balance]);
 
   return (
     <div className="flex flex-row items-center justify-start gap-2 text-3xl font-semibold">
