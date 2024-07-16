@@ -2,12 +2,12 @@
 
 import { AccountSubtype, AccountType, CountryCode } from 'plaid';
 
-import { getTransactionsByBankId } from '@/lib/actions/transaction.action';
+import { createMultiTransaction } from '@/lib/actions/transaction.action';
 import { getBankAccount, getBankAccounts } from '@/lib/actions/user.actions';
 import { plaidClient } from '@/lib/server/plaid';
 import { ActionsResponse } from '@/types';
 import TAccount, { randomColor } from '@/types/account';
-import TTransaction from '@/types/transaction';
+import { randomCategory } from '@/types/transaction';
 
 export const getAccounts = async (userId: string) => {
   try {
@@ -17,7 +17,9 @@ export const getAccounts = async (userId: string) => {
         const accountsResponse = await plaidClient.accountsGet({
           access_token: bank.accessToken,
         });
-        const accountData = accountsResponse.data.accounts[0];
+        const accountData = accountsResponse.data.accounts.find(
+          (account) => account.account_id === bank.accountId
+        )!;
         // get institution info from plaid
         const institution = await getInstitution({
           institutionId: accountsResponse.data.item.institution_id!,
@@ -54,8 +56,8 @@ export const getAccounts = async (userId: string) => {
     return new ActionsResponse('error', (error as Error).message).get();
   }
 };
-// Get one bank account
-export const getAccount = async ({
+// Feth account data one bank account
+export const fetchAccount = async ({
   appwriteItemId,
 }: {
   appwriteItemId: string;
@@ -68,69 +70,33 @@ export const getAccount = async ({
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.accessToken,
     });
-    const accountData = accountsResponse.data.accounts[0];
-    // get transfer transactions from appwrite
-    const transferResponse = await getTransactionsByBankId({
-      bankId: bank.$id,
-    });
-    const transferTransactionsData = ActionsResponse.fromJSON(
-      transferResponse || ''
-    ).getData() as {
-      total: number;
-      documents: TTransaction[];
-    };
-    const transferTransactions = transferTransactionsData.documents;
 
     // get institution info from plaid
-    const institution = await getInstitution({
+    await getInstitution({
       institutionId: accountsResponse.data.item.institution_id!,
     });
 
-    const transactionsResponse = await getTransactions({
+    await getTransactionsFromPlaid({
       accessToken: bank?.accessToken,
     });
-    const transactionsResponseData = ActionsResponse.fromJSON(
-      transactionsResponse || ''
-    ).getData() as {
-      transactions: TTransaction[];
-    };
-    const transactions = transactionsResponseData.transactions;
-    const account = {
-      id: accountData.account_id,
-      availableBalance: accountData.balances.available!,
-      currentBalance: accountData.balances.current!,
-      institutionId: institution.institution_id,
-      name: accountData.name,
-      officialName: accountData.official_name,
-      mask: accountData.mask!,
-      type: accountData.type as string,
-      subtype: accountData.subtype! as string,
-      appwriteItemId: bank.$id,
-    };
-
     // sort transactions by date such that the most recent transaction is first
-    const allTransactions = [...transactions, ...transferTransactions].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    // const allTransactions = [...transferTransactions].sort(
+    //   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    // );
 
-    return new ActionsResponse('success', 'Account fetched', {
-      account,
-      transactions: allTransactions,
-    }).get();
+    return new ActionsResponse('success', 'Account fetched').get();
   } catch (error) {
     console.error('An error occurred while getting the account:', error);
   }
 };
 
 // Get transactions
-export const getTransactions = async ({
+export const getTransactionsFromPlaid = async ({
   accessToken,
 }: {
   accessToken: string;
 }) => {
   let hasMore = true;
-  const transactions: TTransaction[] = [];
-
   try {
     // Iterate through each page of new transaction updates for item
     while (hasMore) {
@@ -139,30 +105,34 @@ export const getTransactions = async ({
       });
 
       const data = response.data;
-      console.log('data', data);
-      //   transactions = response.data.added.map((transaction) => ({
-      //     id: transaction.transaction_id,
-      //     name: transaction.name,
-      //     paymentChannel: transaction.payment_channel,
-      //     type: transaction.payment_channel,
-      //     accountId: transaction.account_id,
-      //     amount: transaction.amount,
-      //     pending: transaction.pending,
-      //     category: transaction.category ? transaction.category[0] : 'Other',
-      //     date: transaction.date,
-      //     image: transaction.logo_url,
-      //     status: 'Success',
-      //     channel: 'online',
-      //     senderBankId: '',
-      //     receiverBankId: '',
-      //   }));
-
+      const transactionsPlaid = data.added.map((transaction) => ({
+        id: transaction.transaction_id,
+        name: transaction.name,
+        paymentChannel: transaction.payment_channel,
+        type: transaction.payment_channel,
+        accountId: transaction.account_id,
+        amount: transaction.amount,
+        pending: transaction.pending,
+        category: transaction.category
+          ? transaction.category[0]
+          : randomCategory(),
+        date: transaction.date,
+        image: transaction.logo_url,
+        status: calculateStatus({
+          pending: transaction.pending,
+          date: transaction.date,
+        }),
+        channel: transaction.payment_channel,
+      }));
+      if (transactionsPlaid.length > 0) {
+        await createMultiTransaction({
+          transactions: transactionsPlaid,
+        });
+      }
       hasMore = data.has_more;
     }
 
-    return new ActionsResponse('success', 'Transactions fetched', {
-      transactions,
-    }).get();
+    return new ActionsResponse('success', 'Transactions fetched').get();
   } catch (error) {
     console.error('An error occurred while getting the accounts:', error);
   }
@@ -186,3 +156,25 @@ export const getInstitution = async ({
     console.error('An error occurred while getting the accounts:', error);
   }
 };
+function calculateStatus({
+  pending,
+  date,
+}: {
+  pending: boolean;
+  date: string;
+}) {
+  if (pending) {
+    return 'Processing';
+  }
+
+  const transactionDate = new Date(date);
+  //if the transaction date is less than the current date - 2 day return success
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 2);
+
+  if (transactionDate < currentDate) {
+    return 'Success';
+  }
+
+  return 'Declined';
+}

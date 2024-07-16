@@ -17,6 +17,9 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
 }) => {
   const [validImageURL, setValidImageURL] = useState(false);
   const checkIsValidUrl = (url: string) => {
+    if (!url) {
+      return false;
+    }
     //check is example.com is not a valid url
     if (url.includes('https://example.com')) {
       return false;
@@ -31,6 +34,7 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
     return name
       .split(' ')
       .map((word) => word[0])
+      .slice(0, 3)
       .join('');
   };
   return (
@@ -39,8 +43,8 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
         <Image
           src={validImageURL ? url : '/placeholder.png'}
           alt={name}
-          width={10}
-          height={10}
+          width={40}
+          height={40}
           className={`rounded-full `}
         />
       ) : (

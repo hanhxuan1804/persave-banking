@@ -40,7 +40,7 @@ export const rateSlice = createAppSlice({
             return response;
           }
           await createRate({
-            rates: JSON.stringify(JSON.stringify(response.conversion_rates)),
+            rates: JSON.stringify(response.conversion_rates),
             updatedAt: new Date(),
           });
           return response;
@@ -57,7 +57,7 @@ export const rateSlice = createAppSlice({
           }
           await updateRate({
             $id: dbRate.$id,
-            rates: JSON.stringify(JSON.stringify(response.conversion_rates)),
+            rates: JSON.stringify(response.conversion_rates),
             updatedAt: new Date(),
           });
           return response;

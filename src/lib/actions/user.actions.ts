@@ -25,6 +25,7 @@ import {
 import { plaidClient } from '@/lib/server/plaid';
 import { encryptId, extractCustomerIdFromUrl } from '@/lib/utils';
 import { ActionsResponse } from '@/types';
+import TBank from '@/types/bank';
 import { TUser } from '@/types/user';
 
 export async function SignUp(data: z.infer<typeof signUpFormSchema>) {
@@ -269,29 +270,26 @@ export async function exchangePublicToken(data: {
         const processorTokenResponse =
           await plaidClient.processorTokenCreate(request);
         const processorToken = processorTokenResponse.data.processor_token;
-
-        //Create a funding source in Dwolla using processorToken
         const fundingSourceUrl = await addFundingSource({
           dwollaCustomerId: data.user.dwollaCustomerId,
           processorToken,
           bankName: accountData.name,
         });
 
-        if (!fundingSourceUrl) {
-          throw new Error('Error adding funding source');
+        if (fundingSourceUrl) {
+          //Create bank account using fundingSourceUrl
+          await createBankAccount({
+            userId: data.user.userId,
+            bankId: itemId,
+            accountId: accountData.account_id,
+            accessToken,
+            fundingSourceUrl,
+            shareableId: encryptId(accountData.account_id),
+          });
         }
-
-        //Create bank account using fundingSourceUrl
-        await createBankAccount({
-          userId: data.user.userId,
-          bankId: itemId,
-          accountId: accountData.account_id,
-          accessToken,
-          fundingSourceUrl,
-          shareableId: encryptId(accountData.account_id),
-        });
       })
     );
+    console.log('Transactions updated');
     //Revalidate the path to reflect the changes
     revalidatePath('/dashboard');
 
@@ -327,9 +325,25 @@ export async function getBankAccounts(userId: string) {
       process.env.NEXT_PUBLIC_APPWRITE_BANK_COLLECTION_ID!,
       [Query.equal('userId', userId)]
     );
-    return findStatus.documents;
+    if (findStatus.total === 0) {
+      const empty: TBank[] = [];
+      return empty;
+    }
+    const result: TBank[] = findStatus.documents.map((doc) => {
+      return {
+        $id: doc.$id,
+        bankId: doc.bankId,
+        accountId: doc.accountId,
+        accessToken: doc.accessToken,
+        fundingSourceUrl: doc.fundingSourceUrl,
+        shareableId: doc.shareableId,
+        userId: userId,
+      };
+    });
+    return result;
   } catch (error) {
-    return [];
+    const empty: TBank[] = [];
+    return empty;
   }
 }
 

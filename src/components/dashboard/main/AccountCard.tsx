@@ -40,6 +40,7 @@ const AccountCard: FC<AccountCardProps> = ({ account }) => {
         {account.officialName
           .split(' ')
           .map((word) => word[0])
+          .slice(0, 2)
           .join('')}
       </div>
       {/* balance */}

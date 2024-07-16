@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import SidePanelBankCards from '@/components/dashboard/sidepanel/SidePanelBankCards';
 import SidePanelBudgets from '@/components/dashboard/sidepanel/SidePanelBudgets';
 import SidePanelHeader from '@/components/dashboard/sidepanel/SidePanelHeader';
-import { BANKS } from '@/data.example';
 import TAccount from '@/types/account';
 import TBank from '@/types/bank';
 import TTransaction from '@/types/transaction';
@@ -13,21 +12,25 @@ interface SidePanelProps {
   user: TUser;
   accounts: TAccount[];
   transactions: TTransaction[];
+  banks: TBank[];
 }
 
-const banks = BANKS;
-
-const SidePanel: FC<SidePanelProps> = ({ user, accounts, transactions }) => {
-  const bankAccount: TBank[] & TAccount[] = banks.reduce(
-    (acc: TBank[] & TAccount[], bank: TBank) => {
-      const account = accounts.find((acc) => acc.id === bank.accountId);
-      if (account) {
-        acc.push({ ...bank, ...account });
-      }
-      return acc;
-    },
-    []
-  );
+const SidePanel: FC<SidePanelProps> = ({
+  user,
+  accounts,
+  transactions,
+  banks,
+}) => {
+  const bankAccount: TBank[] & TAccount[] = accounts
+    .filter((account) => {
+      return banks.find((bank) => bank.accountId === account.id);
+    })
+    .map((account) => {
+      return {
+        ...account,
+        ...banks.find((bank) => bank.accountId === account.id)!,
+      };
+    });
   return (
     <div className="size-full">
       {/* header */}
@@ -35,7 +38,7 @@ const SidePanel: FC<SidePanelProps> = ({ user, accounts, transactions }) => {
       {/* bank card section */}
       <SidePanelBankCards user={user} banks={bankAccount} />
       {/* budgets section */}
-      <SidePanelBudgets banks={banks} transactions={transactions} />
+      <SidePanelBudgets transactions={transactions} />
     </div>
   );
 };

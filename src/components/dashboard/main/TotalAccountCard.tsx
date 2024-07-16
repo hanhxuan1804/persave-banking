@@ -1,22 +1,25 @@
 import React, { FC } from 'react';
 import { Plus } from 'lucide-react';
 
+import PlaidLinkButton from '@/components/connect/PlaidLinkButton';
 import CountUpAnimate from '@/components/dashboard/main/CountUpAnimate';
 import DoughnutChart from '@/components/dashboard/main/DoughnutChart';
-import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';
+import { TUser } from '@/types/user';
 
 interface TotalAccountCardProps {
   accounts: TAccount[];
   totalBalance: number;
   totalBankAccounts: number;
+  user: TUser;
 }
 
 const TotalAccountCard: FC<TotalAccountCardProps> = ({
   accounts,
   totalBalance,
   totalBankAccounts,
+  user,
 }) => {
   return (
     <div className="flex w-full flex-row gap-4 rounded-lg border p-4 shadow-md dark:bg-gray-500">
@@ -31,14 +34,15 @@ const TotalAccountCard: FC<TotalAccountCardProps> = ({
           <h2 className="text-base font-semibold">
             {m.dashboard_account_count()} {totalBankAccounts}
           </h2>
-          <Button
+          <PlaidLinkButton
+            user={user}
             variant="ghost"
             size="sm"
             className="font-semibold text-[#0179FE] hover:text-[#4893FF] dark:text-[#a7ccf8] dark:hover:text-[#0179FE]"
           >
             <Plus size={16} strokeWidth={3} />
             <span className="ml-1">{m.dashboard_account_add_bank()}</span>
-          </Button>
+          </PlaidLinkButton>
         </div>
         {/* balance */}
         <div className="flex flex-col gap-2">

@@ -35,7 +35,7 @@ const CountUpAnimate: FC<CountUpAnimateProps> = ({ balance }) => {
   useEffect(() => {
     setAmount(transferCurrency(balance, languageTag(), rates));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balance]);
+  }, [balance, languageTag()]);
 
   return (
     <div className="flex flex-row items-center justify-start gap-2 text-3xl font-semibold">

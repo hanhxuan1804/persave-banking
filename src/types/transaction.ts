@@ -46,3 +46,28 @@ declare type CategoryGroupMap = {
 declare type Status = 'Success' | 'Processing' | 'Declined';
 export default TTransaction;
 export type { Category, Status, CategoryGroupMap, TCategoryGroup };
+export const randomCategory = (): Category => {
+  const categories: Category[] = [
+    'Food and Drink',
+    'Travel',
+    'Transfer',
+    'Shopping',
+    'Food',
+    'Housing',
+    'Utilities',
+    'Salary',
+    'Groceries',
+    'Subscription',
+    'Income',
+    'Rent',
+    'Deposit',
+    'Withdrawal',
+    'Interest',
+    'Payment',
+    'Credit Card',
+    'Loan',
+    'Investment',
+    'Other',
+  ];
+  return categories[Math.floor(Math.random() * categories.length)];
+};

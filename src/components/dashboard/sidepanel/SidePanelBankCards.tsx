@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Plus } from 'lucide-react';
 
+import PlaidLinkButton from '@/components/connect/PlaidLinkButton';
 import CreditCardGroup from '@/components/creditCard/CreditCardGroup';
-import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
 import TAccount from '@/types/account';
 import TBank from '@/types/bank';
@@ -20,13 +20,14 @@ const SidePanelBankCards: FC<SidePanelBankCardsProps> = ({ banks, user }) => {
         <h2 className="text-lg font-semibold">
           {m.dashboard_sidepanel_my_banks()}
         </h2>
-        <Button
+        <PlaidLinkButton
+          user={user}
           variant="ghost"
           className="text-sm text-blue-500 hover:text-blue-400"
         >
           <Plus size={16} />
           <span className="ml-2">{m.dashboard_account_add_bank()}</span>
-        </Button>
+        </PlaidLinkButton>
       </div>
       {/* cards group */}
       <CreditCardGroup banks={banks} user={user} />

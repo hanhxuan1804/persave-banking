@@ -1,4 +1,6 @@
+'use client';
 import React, { FC } from 'react';
+import { useRouter } from 'next/navigation';
 
 import AccountCard from '@/components/dashboard/main/AccountCard';
 import TransactionTable from '@/components/TransactionTable';
@@ -20,13 +22,18 @@ const RecentTransactions: FC<RecentTransactionsProps> = ({
   accounts,
   transactions,
 }) => {
+  const router = useRouter();
   const tabs = accounts.map((account) => {
     return {
       value: account.id,
       bank: banks.find((bank) => bank.accountId === account.id),
       color: account.color,
       amount: account.currentBalance,
-      label: account.officialName,
+      //label only 20 characters long, truncate if longer
+      label:
+        account.officialName.length > 20
+          ? account.officialName.substring(0, 20) + '...'
+          : account.officialName,
       content: transactions.filter(
         (transaction) => transaction.accountId === account.id
       ),
@@ -39,7 +46,7 @@ const RecentTransactions: FC<RecentTransactionsProps> = ({
         <h2 className="text-2xl font-semibold">
           {m.dashboard_content_recent_transaction()}
         </h2>
-        <Button variant={'outline'}>
+        <Button variant={'outline'} onClick={() => router.push('/transaction')}>
           {m.dashboard_content_view_all_button()}
         </Button>
       </div>

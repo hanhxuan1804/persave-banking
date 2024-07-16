@@ -31,7 +31,7 @@ export const transferCurrency = (amount: number, locale = 'en', rate: Rate) => {
   return amount * rateCurrency;
 };
 
-export const formatDateTime = (date: string, locale = 'en') => {
+export const formatDateTime = (date: Date, locale = 'en') => {
   //from 2024-06-22T12:00:00Z to Wed 1:00pm
   const formatter = {
     en: new Intl.DateTimeFormat('en-US', {
@@ -66,4 +66,11 @@ export function extractCustomerIdFromUrl(url: string) {
   const customerId = parts[parts.length - 1];
 
   return customerId;
+}
+
+export function removeAllSpecialCharacters(str: string) {
+  //replace all special characters with space
+  const result = str.replace(/[^a-zA-Z0-9]/g, ' ');
+  //remove duplicate spaces
+  return result.replace(/\s+/g, ' ').trim();
 }

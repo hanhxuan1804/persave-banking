@@ -14,24 +14,24 @@ import {
 import { ActionsResponse } from '@/types';
 import { TUser } from '@/types/user';
 
-interface PlaidLinkButtonProps {
+interface PlaidLinkButtonProps extends React.PropsWithChildren {
   variant?: 'default' | 'ghost' | 'outline';
   size?: 'default' | 'sm' | 'lg';
   user: TUser;
-  children?: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const PlaidLinkButton: FC<PlaidLinkButtonProps> = ({
   variant = 'default',
   size = 'default',
   user,
+  className = '',
   children = (
-    <p className="text-sm font-semibold text-[#0179fe]  ">
-      Connect Bank Account
+    <p className="text-sm font-semibold text-[#0179fc]">
+      Connect a bank account
     </p>
   ),
-  className = '',
 }) => {
   const [token, setToken] = useState<string>('');
   useEffect(() => {

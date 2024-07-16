@@ -34,7 +34,7 @@ const CreditCardGroup: FC<CreditCardGroupProps> = ({ banks, user }) => {
                           bank: banks[index + 1].officialName,
                           name: user.firstName + ' ' + user.lastName,
                           number: banks[index + 1].mask,
-                          expiry: '12/23',
+                          expiry: '12/25',
                           color: banks[index + 1].color,
                         } as TCreditCard
                       }

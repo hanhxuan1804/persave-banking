@@ -4,23 +4,39 @@ import ContentHeader from '@/components/ContentHeader';
 import RecentTransactions from '@/components/dashboard/main/RecentTransactions';
 import TotalAccountCard from '@/components/dashboard/main/TotalAccountCard';
 import SidePanel from '@/components/dashboard/sidepanel/SidePanel';
-import { BANKS, TRANSACTIONS } from '@/data.example';
-import { getAccounts } from '@/lib/actions/account.actions';
-import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { fetchAccount, getAccounts } from '@/lib/actions/account.actions';
+import {
+  getAllTransactions,
+  TransactionsDataResponse,
+} from '@/lib/actions/transaction.action';
+import { getBankAccounts, getLoggedInUser } from '@/lib/actions/user.actions';
 import * as m from '@/paraglide/messages';
 import { AccountDataResponse, ActionsResponse } from '@/types';
+import TBank from '@/types/bank';
 import { TUser } from '@/types/user';
 
 interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = async () => {
+  // get logged in user
   const userData = await getLoggedInUser();
   const user: TUser = JSON.parse(userData as string);
+  // get all accounts
   const accountsData = ActionsResponse.fromJSON(
     await getAccounts(user.userId)
   ).getData() as AccountDataResponse;
-  const transactions = TRANSACTIONS;
-  const banks = BANKS;
+  const banks = (await getBankAccounts(user.userId)) as TBank[];
+  // fetch all accounts to get the latest data from plaid
+  accountsData.accounts.forEach(async (account) => {
+    await fetchAccount({ appwriteItemId: account.appwriteItemId });
+  });
+  // get all transactions
+  const transactionData = ActionsResponse.fromJSON(
+    await getAllTransactions({
+      accountIds: accountsData.accounts.map((account) => account.id),
+    })
+  ).getData() as TransactionsDataResponse;
+  const transactions = transactionData.transactions;
   return (
     <div data-testid="dashboard" className="flex size-full flex-row">
       {/* main */}
@@ -37,6 +53,7 @@ const Dashboard: FC<DashboardProps> = async () => {
           accounts={accountsData.accounts}
           totalBalance={accountsData.totalCurrentBalance}
           totalBankAccounts={accountsData.totalBanks}
+          user={user}
         />
         {/* recent transactions */}
         <RecentTransactions
@@ -49,6 +66,7 @@ const Dashboard: FC<DashboardProps> = async () => {
       <div className="w-[30%]">
         <SidePanel
           user={user}
+          banks={banks}
           accounts={accountsData.accounts}
           transactions={transactions}
         />

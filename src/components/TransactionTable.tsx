@@ -18,7 +18,12 @@ import {
   TRANSACTION_CATEGORY_COLOR_VARIANTS,
 } from '@/lib/constant';
 import { selectRates } from '@/lib/redux/feature/rateSlice';
-import { cn, formatCurrency, formatDateTime } from '@/lib/utils';
+import {
+  cn,
+  formatCurrency,
+  formatDateTime,
+  removeAllSpecialCharacters,
+} from '@/lib/utils';
 import * as m from '@/paraglide/messages';
 import { languageTag } from '@/paraglide/runtime';
 import TBank from '@/types/bank';
@@ -77,7 +82,7 @@ const TransactionTable = forwardRef<Ref, TransactionTableProps>(
                     <TableCell className="flex flex-row items-center justify-start">
                       <TableTransactionImage
                         url={transaction.image}
-                        name={transaction.name}
+                        name={removeAllSpecialCharacters(transaction.name)}
                         variant={
                           TRANSACTION_CATEGORY_COLOR_VARIANTS[
                             CATEGORY_GROUP_MAP[transaction.category]
@@ -85,17 +90,16 @@ const TransactionTable = forwardRef<Ref, TransactionTableProps>(
                         }
                       />
                       <span className="ml-2 font-semibold">
-                        {transaction.name}
+                        {removeAllSpecialCharacters(transaction.name)}
                       </span>
                     </TableCell>
                     <TableCell
                       className={`${
-                        transaction.senderBankId === bank.$id
+                        transaction.amount < 0
                           ? 'text-red-500'
                           : 'text-green-500'
                       } font-bold`}
                     >
-                      {transaction.senderBankId === bank.$id ? '- ' : '+ '}
                       {formatCurrency(transaction.amount, languageTag(), rates)}
                     </TableCell>
                     <TableCell>
