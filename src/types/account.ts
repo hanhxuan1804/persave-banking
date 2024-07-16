@@ -27,7 +27,7 @@ declare type AccountColor =
   | 'gray';
 export default TAccount;
 export type { AccountColor };
-export const randomColor = (): AccountColor => {
+export const randomColor = (name = ''): AccountColor => {
   const colors = [
     'red',
     'green',
@@ -40,5 +40,18 @@ export const randomColor = (): AccountColor => {
     'teal',
     'gray',
   ];
+  if (name !== '' && name.length > 0) {
+    //if name have Saving or Savings, return green
+    if (
+      name.toLowerCase().includes('saving') ||
+      name.toLowerCase().includes('savings')
+    ) {
+      return 'green';
+    }
+    //if name have Checking, return blue
+    if (name.toLowerCase().includes('checking')) {
+      return 'blue';
+    }
+  }
   return colors[Math.floor(Math.random() * colors.length)] as AccountColor;
 };

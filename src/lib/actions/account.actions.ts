@@ -37,7 +37,7 @@ export const getAccounts = async (userId: string) => {
           subtype: accountData.subtype! as AccountSubtype,
           appwriteItemId: bank.$id,
           shareableId: bank.shareableId,
-          color: randomColor(),
+          color: randomColor(accountData.name),
         };
         return account;
       })

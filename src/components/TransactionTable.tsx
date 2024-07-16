@@ -100,6 +100,7 @@ const TransactionTable = forwardRef<Ref, TransactionTableProps>(
                           : 'text-green-500'
                       } font-bold`}
                     >
+                      {transaction.amount > 0 && '+'}
                       {formatCurrency(transaction.amount, languageTag(), rates)}
                     </TableCell>
                     <TableCell>
