@@ -1,7 +1,7 @@
 import { AccountColor } from '@/types/account';
 
 declare type TCreditCard = {
-  bankId: string;
+  accountId: string;
   bank: string;
   name: string;
   number: string;

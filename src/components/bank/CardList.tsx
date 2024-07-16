@@ -10,9 +10,11 @@ import { formatCurrency } from '@/lib/utils';
 import * as m from '@/paraglide/messages';
 import { languageTag } from '@/paraglide/runtime';
 import TCreditCard from '@/types/credit-card';
+import TTransaction from '@/types/transaction';
 
 interface CardListProps {
   cards: TCreditCard[];
+  transactions: TTransaction[];
 }
 const MAX_SPEND = 1000;
 interface DataCard extends TCreditCard {
@@ -21,13 +23,21 @@ interface DataCard extends TCreditCard {
   spendingLabel: string;
 }
 
-const CardList: FC<CardListProps> = ({ cards }) => {
+const CardList: FC<CardListProps> = ({ cards, transactions }) => {
   const rate = useAppSelector(selectRates);
   const [data, setData] = useState<DataCard[]>([]);
 
   useEffect(() => {
     const newData = cards.map((card) => {
-      const spending = Math.floor(Math.random() * MAX_SPEND);
+      const spending = transactions.reduce((acc, transaction) => {
+        if (
+          transaction.accountId === card.accountId &&
+          transaction.amount < 0
+        ) {
+          return acc + Math.abs(transaction.amount);
+        }
+        return acc;
+      }, 0);
       const totalBudget = MAX_SPEND;
       const spendingLabel = formatCurrency(spending, languageTag(), rate);
       return {
