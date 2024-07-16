@@ -125,9 +125,12 @@ export const getAllTransactions = async ({
       transactions.push(...responseData.transactions);
       total += responseData.total;
     });
-
+    // sort transactions by date such that the most recent transaction is first
+    const allTransactions = transactions.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
     return new ActionsResponse('success', 'Transactions fetched', {
-      transactions,
+      transactions: allTransactions,
       total,
     }).get();
   } catch (error) {

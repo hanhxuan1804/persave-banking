@@ -79,10 +79,6 @@ export const fetchAccount = async ({
     await getTransactionsFromPlaid({
       accessToken: bank?.accessToken,
     });
-    // sort transactions by date such that the most recent transaction is first
-    // const allTransactions = [...transferTransactions].sort(
-    //   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    // );
 
     return new ActionsResponse('success', 'Account fetched').get();
   } catch (error) {
