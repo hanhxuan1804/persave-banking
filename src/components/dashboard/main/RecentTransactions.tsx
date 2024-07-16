@@ -31,9 +31,9 @@ const RecentTransactions: FC<RecentTransactionsProps> = ({
       amount: account.currentBalance,
       //label only 20 characters long, truncate if longer
       label:
-        account.officialName.length > 20
-          ? account.officialName.substring(0, 20) + '...'
-          : account.officialName,
+        account.name.length > 20
+          ? account.name.substring(0, 20) + '...'
+          : account.name,
       content: transactions.filter(
         (transaction) => transaction.accountId === account.id
       ),
