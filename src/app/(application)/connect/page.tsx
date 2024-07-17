@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import PlaidLinkButton from '@/components/connect/PlaidLinkButton';
 import ContentHeader from '@/components/ContentHeader';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import * as m from '@/paraglide/messages';
 import { TUser } from '@/types/user';
 
 interface pageProps {}
@@ -12,8 +13,8 @@ const page: FC<pageProps> = async () => {
   return (
     <div className="flex size-full flex-col items-start justify-start px-8 py-6">
       <ContentHeader
-        title="Connect Bank Account"
-        subtitle="Connect your bank account via Plaid"
+        title={m.connect_bank_account()}
+        subtitle={m.connect_bank_subtitle()}
         type="title"
       />
       <div className="flex size-full flex-col items-center justify-center">

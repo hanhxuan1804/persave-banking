@@ -11,6 +11,7 @@ import {
   createLinkToken,
   exchangePublicToken,
 } from '@/lib/actions/user.actions';
+import * as m from '@/paraglide/messages';
 import { ActionsResponse } from '@/types';
 import { TUser } from '@/types/user';
 
@@ -29,7 +30,7 @@ const PlaidLinkButton: FC<PlaidLinkButtonProps> = ({
   className = '',
   children = (
     <p className="text-sm font-semibold text-[#0179fc]">
-      Connect a bank account
+      {m.connect_bank_account()}
     </p>
   ),
 }) => {

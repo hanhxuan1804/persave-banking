@@ -113,5 +113,8 @@
   "postal_code": "Postal Code",
   "enter_postal_code": "Enter postal code",
   "SSN": "SSN",
-  "enter_ssn": "Enter Social Security Number"
+  "enter_ssn": "Enter Social Security Number",
+  "connect_bank_account": "Connect Bank Account",
+  "connect_bank_subtitle": "Connect your bank account via Plaid",
+  "direct_fair_kudu_type": "For demo purposes, you can use the following credentials:"
 }

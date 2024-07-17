@@ -1,7 +1,7 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { InfoIcon, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -16,6 +16,11 @@ import {
   FormMessage,
   FormRootMessage,
 } from '@/components/ui/form';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SignIn } from '@/lib/actions/user.actions';
@@ -61,7 +66,27 @@ const SignInPage = () => {
       {/* form */}
       <div className="flex flex-col items-start justify-center gap-8">
         <div className="flex flex-col items-start justify-center gap-6">
-          <Label className="text-4xl font-[600]">{m.sign_in()}</Label>
+          <div className="flex w-full flex-row items-center justify-between">
+            <Label className="text-4xl font-[600]">{m.sign_in()}</Label>
+            <HoverCard>
+              <HoverCardTrigger>
+                <InfoIcon className="cursor-pointer" color="#0179FE" />
+              </HoverCardTrigger>
+              <HoverCardContent>
+                {m.direct_fair_kudu_type()}
+                <br />
+                <b>Email:</b>
+                <span className="text-[#0179FE]">
+                  <i>tester01@gmail.com</i>
+                </span>
+                <br />
+                <b>{m.password()}:</b>
+                <span className="text-[#0179FE]">
+                  <i>12345678</i>
+                </span>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
           <Label className="text-base font-light">{m.welcome_message()}</Label>
         </div>
         <Form {...form}>

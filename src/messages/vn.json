@@ -113,5 +113,8 @@
   "postal_code": "Mã bưu chính",
   "enter_postal_code": "Nhập mã bưu chính",
   "SSN": "CCCD",
-  "enter_ssn": "Nhập số CCCD"
+  "enter_ssn": "Nhập số CCCD",
+  "connect_bank_account": "Kết nối tài khoản ngân hàng",
+  "connect_bank_subtitle": "Kết nối tài khoản ngân hàng của bạn để quản lý tài chính một cách dễ dàng hơn thông qua Plaid",
+  "direct_fair_kudu_type": "Vì mục đích demo, bạn có thể sử dụng các thông tin sau:"
 }
