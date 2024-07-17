@@ -17,7 +17,8 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
 }) => {
   const [validImageURL, setValidImageURL] = useState(false);
   const checkIsValidUrl = (url: string) => {
-    if (!url) {
+    //check if url is empty or null or undefined
+    if (!url || url === '' || url === null || url === undefined) {
       return false;
     }
     //check is example.com is not a valid url
@@ -41,7 +42,7 @@ const TableTransactionImage: FC<TableTransactionImageProps> = ({
     <div className="flex size-10 items-center justify-center">
       {validImageURL ? (
         <Image
-          src={validImageURL ? url : '/placeholder.png'}
+          src={url ? url : '/images/placeholder.png'}
           alt={name}
           width={40}
           height={40}

@@ -25,6 +25,7 @@ const AccountSelect: FC<AccountSelectDropdownProps> = ({
   const [defaultValue, setDefaultValue] = React.useState(accounts[0].name);
   const searchParams = useMySearchParams();
   const onSelectAccount = (accountId: string) => {
+    console.log(accountId);
     if (isSetQuery) {
       searchParams.setMultiple({
         accountId: accountId,

@@ -57,7 +57,7 @@ const TransactionTable = forwardRef<Ref, TransactionTableProps>(
           <Table>
             <TableHeader className="bg-[#F9FAFB] dark:bg-transparent">
               <TableRow>
-                <TableHead className="">
+                <TableHead className="-z-10">
                   {m.table_header_transaction()}
                 </TableHead>
                 <TableHead>{m.table_header_amount()}</TableHead>
