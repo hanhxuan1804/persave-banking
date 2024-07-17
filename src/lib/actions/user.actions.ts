@@ -11,8 +11,6 @@ import {
 } from 'plaid';
 import z from 'zod';
 
-import { signInFormSchema } from '@/app/(auth)/signin/page';
-import { signUpFormSchema } from '@/app/(auth)/signup/page';
 import {
   addFundingSource,
   createDwollaCustomer,
@@ -26,6 +24,7 @@ import { plaidClient } from '@/lib/server/plaid';
 import { encryptId, extractCustomerIdFromUrl } from '@/lib/utils';
 import { ActionsResponse } from '@/types';
 import TBank from '@/types/bank';
+import { signInFormSchema, signUpFormSchema } from '@/types/schema';
 import { TUser } from '@/types/user';
 
 export async function SignUp(data: z.infer<typeof signUpFormSchema>) {

@@ -27,6 +27,7 @@ import { SignIn } from '@/lib/actions/user.actions';
 import { Link } from '@/lib/i18n';
 import * as m from '@/paraglide/messages';
 import { ActionsResponse } from '@/types';
+import { signInFormSchema } from '@/types/schema';
 
 const SignInPage = () => {
   const router = useRouter();
@@ -150,10 +151,3 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
-
-export const signInFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters long',
-  }),
-});

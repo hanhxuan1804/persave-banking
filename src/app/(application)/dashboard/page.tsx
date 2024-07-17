@@ -23,9 +23,9 @@ const Dashboard: FC<DashboardProps> = async () => {
   const user: TUser = JSON.parse(userData as string);
   // get all accounts
   const accountsData = ActionsResponse.fromJSON(
-    await getAccounts(user.userId)
+    await getAccounts(user?.userId)
   ).getData() as AccountDataResponse;
-  const banks = (await getBankAccounts(user.userId)) as TBank[];
+  const banks = (await getBankAccounts(user?.userId)) as TBank[];
   // fetch all accounts to get the latest data from plaid
   accountsData.accounts.forEach(async (account) => {
     await fetchAccount({ appwriteItemId: account.appwriteItemId });

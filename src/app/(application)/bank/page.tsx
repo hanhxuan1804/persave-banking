@@ -21,7 +21,7 @@ const Bank: FC<pageProps> = async () => {
   const user: TUser = JSON.parse(userData as string);
   // get all accounts
   const accountsData = ActionsResponse.fromJSON(
-    await getAccounts(user.userId)
+    await getAccounts(user?.userId)
   ).getData() as AccountDataResponse;
   // get all transactions
   const transactionData = ActionsResponse.fromJSON(

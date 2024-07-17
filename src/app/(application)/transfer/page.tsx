@@ -16,7 +16,7 @@ const Transfer: FC<pageProps> = async () => {
   const user: TUser = JSON.parse(userData as string);
   // get all accounts
   const accountsData = ActionsResponse.fromJSON(
-    await getAccounts(user.userId)
+    await getAccounts(user?.userId)
   ).getData() as AccountDataResponse;
   const accounts = accountsData.accounts;
   return (

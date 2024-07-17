@@ -17,7 +17,7 @@ const TransactionPage: FC<pageProps> = async () => {
   const user: TUser = JSON.parse(userData as string);
   // get all accounts
   const accountsData = ActionsResponse.fromJSON(
-    await getAccounts(user.userId)
+    await getAccounts(user?.userId)
   ).getData() as AccountDataResponse;
   const accounts = accountsData.accounts;
   // get all transactions
@@ -27,7 +27,7 @@ const TransactionPage: FC<pageProps> = async () => {
     })
   ).getData() as TransactionsDataResponse;
   // get all banks
-  const banks = await getBankAccounts(user.userId);
+  const banks = await getBankAccounts(user?.userId);
 
   const transactions = transactionData.transactions;
   return (
