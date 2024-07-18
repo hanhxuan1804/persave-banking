@@ -48,6 +48,7 @@ const CardList: FC<CardListProps> = ({ cards, transactions }) => {
       };
     });
     setData(newData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards, rate]);
   return (
     <div className="mt-4 flex flex-row flex-wrap justify-stretch gap-11 pb-10">

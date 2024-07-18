@@ -8,10 +8,25 @@ import AppSettings from '@/components/AppSettings';
 import StoreProvider from '@/components/store-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { siteConfig } from '@/lib/constant';
+import { env } from '@/env.mjs';
 import { fonts } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
+import * as m from '@/paraglide/messages.js';
 import { languageTag } from '@/paraglide/runtime.js';
+
+const siteConfig = {
+  title: m.meta_title,
+  description: m.meta_description,
+  keywords: () => [
+    m.meta_keyword_nextjs(),
+    m.meta_keyword_react(),
+    m.meta_keyword_nextjs_starter(),
+    m.meta_keyword_tailwindcss(),
+    m.meta_keyword_typescript(),
+    m.meta_keyword_shadcn_ui(),
+  ],
+  url: () => env.APP_URL,
+};
 
 export const generateMetadata = (): Metadata => ({
   metadataBase: new URL(siteConfig.url()),
